@@ -10,10 +10,12 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import Login from './Login';
 import Register from './Register';
+import ProtectedRoute from "./ProtectedRoute"; 
 import CardRemovePopup from './CardRemovePopup';
-import { Route, Switch } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -138,27 +140,34 @@ function App() {
   return (
     <div className="page">
       <Header/>
-      <Switch>
-      <Route exact path="/">
-        <CurrentUserContext.Provider value={currentUser}>
-          {currentUser && <Main
-            cards={cards}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-          />}      
-        </CurrentUserContext.Provider>
-      </Route>  
-      <Route path="/sign-in">
-        <Login />
-      </Route>
-      <Route path="/sign-up">
-        <Register />
-      </Route>  
-      </Switch>    
+      <Routes>
+      <Route 
+          index
+          element={
+            <ProtectedRoute user={isLoggedIn}>
+              <CurrentUserContext.Provider value={currentUser}>
+                {currentUser && <Main
+                  cards={cards}
+                  onEditProfile={handleEditProfileClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />}
+              </CurrentUserContext.Provider>  
+            </ProtectedRoute>
+          }
+        />        
+        <Route 
+          path="sign-in"
+          element={<Login />} 
+        />
+        <Route 
+          path="sign-up"
+          element={<Register />} 
+        />        
+      </Routes>    
       <Footer/>
       <CurrentUserContext.Provider value={currentUser}>
         {currentUser && 
