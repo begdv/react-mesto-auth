@@ -16,7 +16,10 @@ export default function Register(props) {
   function handleSubmit(e) {
     e.preventDefault();
   
-    alert('Submit');
+    props.onRegister({
+      email,
+      password,
+    });
   } 
 
   return (
@@ -38,7 +41,7 @@ export default function Register(props) {
           />
           <span className="form__input-error  form__input-error_field_register-email"></span>
           <input 
-            type="text" 
+            type="password" 
             className="form__input form__input_type_sign form__input_field_register-password" 
             id="login-password" 
             name="password" 
@@ -51,7 +54,7 @@ export default function Register(props) {
           />
           <span className="form__input-error  form__input-error_field_register-password"></span>
           <button className="form__button form__button_type_sign form__button-register" type='submit'>Зарегистрироваться</button>
-          <Link className="form__link" to="/sign-in">Уже зарегистрированы? Войти</Link>
+          <Link className="form__link" to="/signin">Уже зарегистрированы? Войти</Link>
         </form> 
       </div>       
     </section>

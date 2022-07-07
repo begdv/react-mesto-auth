@@ -37,7 +37,7 @@ export default function Login(props) {
           />
           <span className="form__input-error  form__input-error_field_login-email"></span>
           <input 
-            type="text" 
+            type="password" 
             className="form__input form__input_type_sign form__input_field_login-password" 
             id="login-password" 
             name="password" 

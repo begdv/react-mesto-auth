@@ -1,4 +1,7 @@
 .header{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
     padding: 28px 0 32px 27px;
 }
 

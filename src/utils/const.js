@@ -6,5 +6,12 @@ export const configApi = {
     }
 };
 
+export const configApiAuth = {
+  url: 'https://mesto.nomoreparties.co/',
+  headers: {
+    "content-type": "application/json",
+  }
+};
+
 export const cardSelector = '.cards';
 export const cardTemplateSelector = '.card-template';

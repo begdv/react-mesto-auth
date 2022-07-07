@@ -4,6 +4,7 @@ import Footer from './Footer';
 import Main from './Main';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import {api} from '../utils/Api';
+import {apiAuth} from '../utils/ApiAuth';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -12,10 +13,11 @@ import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from "./ProtectedRoute"; 
 import CardRemovePopup from './CardRemovePopup';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [email, setEmail] = React.useState('');
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -130,6 +132,15 @@ function App() {
     });       
   } 
 
+  function handleRegister(user) {
+    console.log(user);
+/*    apiAuth.register(user).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err); 
+    })*/
+  }
+
   const closeAllPopups = () => {
     setIsAddPlacePopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -139,7 +150,7 @@ function App() {
   }   
   return (
     <div className="page">
-      <Header/>
+      <Header email={email}/>
       <Routes>
       <Route 
           index
@@ -160,13 +171,21 @@ function App() {
           }
         />        
         <Route 
-          path="sign-in"
+          path="signin"
           element={<Login />} 
         />
         <Route 
-          path="sign-up"
-          element={<Register />} 
-        />        
+          path="signup"
+          element={
+            <Register
+              onRegister={handleRegister} 
+            />
+          } 
+        /> 
+        <Route 
+          path="*" 
+          element={<Navigate replace to="/signin" />}
+        />               
       </Routes>    
       <Footer/>
       <CurrentUserContext.Provider value={currentUser}>
