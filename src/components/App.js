@@ -8,7 +8,10 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import Login from './Login';
+import Register from './Register';
 import CardRemovePopup from './CardRemovePopup';
+import { Route, Switch } from 'react-router-dom';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -135,17 +138,27 @@ function App() {
   return (
     <div className="page">
       <Header/>
-      <CurrentUserContext.Provider value={currentUser}>
-        {currentUser && <Main
-          cards={cards}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />}      
-      </CurrentUserContext.Provider>
+      <Switch>
+      <Route exact path="/">
+        <CurrentUserContext.Provider value={currentUser}>
+          {currentUser && <Main
+            cards={cards}
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
+          />}      
+        </CurrentUserContext.Provider>
+      </Route>  
+      <Route path="/sign-in">
+        <Login />
+      </Route>
+      <Route path="/sign-up">
+        <Register />
+      </Route>  
+      </Switch>    
       <Footer/>
       <CurrentUserContext.Provider value={currentUser}>
         {currentUser && 

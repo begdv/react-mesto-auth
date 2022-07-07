@@ -41,7 +41,7 @@ export default function AddPlacePopup(props) {
     >  
       <input 
         type="text" 
-        className="form__input form__input_field_card-name" 
+        className="form__input form__input_type_popup form__input_field_card-name" 
         id="card-name"            
         name="name" 
         placeholder="Название" 
@@ -54,7 +54,7 @@ export default function AddPlacePopup(props) {
       <span className="form__input-error  form__input-error_field_card-name"></span>
       <input 
         type="url" 
-        className="form__input form__input_field_card-href" 
+        className="form__input form__input_type_popup form__input_field_card-href" 
         id="card-href"
         name="link" 
         placeholder="Ссылка на картинку" 

@@ -8,10 +8,10 @@ export default function PopupWithForm(props) {
           type="button"
           onClick={handleClosePopupClick}
           ></button>
-        <form className={`form ${name}-form`} name={`${name}-form`} onSubmit={handleSubmit} noValidate>
-          <h2 className="form__title">{formTitle}</h2>
+        <form className={`form form_type_popup ${name}-form`} name={`${name}-form`} onSubmit={handleSubmit} noValidate>
+          <h2 className="form__title form__title_type_popup">{formTitle}</h2>
           {props.children}
-          <button className="form__button form__button-save" type='submit'>{isLoading ? 'Сохраняется...' : formButtonText}</button>
+          <button className="form__button form__button_type_popup form__button-save" type='submit'>{isLoading ? 'Сохраняется...' : formButtonText}</button>
         </form>        
       </div>      
     </div>

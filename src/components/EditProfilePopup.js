@@ -43,7 +43,7 @@ export default function EditProfilePopup(props) {
     >  
       <input 
         type="text" 
-        className="form__input form__input_field_profile-name" 
+        className="form__input form__input_type_popup form__input_field_profile-name" 
         id="profile-name"
         name="name" 
         placeholder="Имя" 
@@ -53,10 +53,10 @@ export default function EditProfilePopup(props) {
         value={name}
         onChange={handleChangeName}
       />
-      <span className="form__input-error  form__input-error_field_profile-name"></span>
+      <span className="form__input-error form__input-error_field_profile-name"></span>
       <input 
         type="text" 
-        className="form__input form__input_field_profile-about" 
+        className="form__input form__input_type_popup form__input_field_profile-about" 
         id="profile-about" 
         name="about" 
         placeholder="О себе" 

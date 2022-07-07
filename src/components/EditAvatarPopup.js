@@ -30,7 +30,7 @@ export default function EditAvatarPopup(props) {
     >
       <input 
         type="url" 
-        className="form__input form__input_field_avatar-href" 
+        className="form__input form__input_type_popup form__input_field_avatar-href" 
         id="avatar-href"
         name="avatar" 
         placeholder="Ссылка на аватар" 
