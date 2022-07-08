@@ -15,7 +15,10 @@ export default function Login(props) {
   function handleSubmit(e) {
     e.preventDefault();
   
-    alert('Submit');
+    props.onLogin({
+      email,
+      password,
+    });
   } 
 
   return (

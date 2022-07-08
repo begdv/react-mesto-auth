@@ -9,15 +9,17 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import InfoTooltip from './InfoTooltip';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from "./ProtectedRoute"; 
 import CardRemovePopup from './CardRemovePopup';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [email, setEmail] = React.useState('');
+  const [typeInfo, setTypeInfo] = React.useState('');
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -27,6 +29,7 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState(null);
   const [cards, setCards] = React.useState([]);    
   const [isLoading, setIsLoading] = React.useState(false);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     api.getInitialCards()
@@ -132,14 +135,22 @@ function App() {
     });       
   } 
 
-  function handleRegister(user) {
-    console.log(user);
-/*    apiAuth.register(user).then((res) => {
-      console.log(res);
+  function handleRegister(data) {
+    apiAuth.register(data).then((res) => {
+      setTypeInfo('ok');
+      navigate("/signin", { replace: true });
+    }).catch((err) => {
+      setTypeInfo('error');
+    });
+  }
+
+  function handleLogin(data) {
+    apiAuth.login(data).then((res) => {
+      navigate("/signin", { replace: true });
     }).catch((err) => {
       console.log(err); 
-    })*/
-  }
+    });
+  }  
 
   const closeAllPopups = () => {
     setIsAddPlacePopupOpen(false);
@@ -147,6 +158,10 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setIsCardRemovePopupOpen(false);
     setSelectedCard(null);
+  } 
+  
+  const closeInfoTooltip = () => {
+    setTypeInfo('');
   }   
   return (
     <div className="page">
@@ -172,7 +187,11 @@ function App() {
         />        
         <Route 
           path="signin"
-          element={<Login />} 
+          element={
+            <Login 
+              onLogin={handleLogin}
+            />
+          } 
         />
         <Route 
           path="signup"
@@ -184,7 +203,7 @@ function App() {
         /> 
         <Route 
           path="*" 
-          element={<Navigate replace to="/signin" />}
+          element={<Navigate to="/signin" replace/>}
         />               
       </Routes>    
       <Footer/>
@@ -219,6 +238,10 @@ function App() {
       <ImagePopup
         card={selectedCard}
         onClose={closeAllPopups}
+      />       
+      <InfoTooltip
+        typeInfo={typeInfo}
+        onClose={closeInfoTooltip}
       />            
     </div>
   );
