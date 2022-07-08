@@ -5,19 +5,19 @@ export default function AddPlacePopup(props) {
   const {isOpen : isAddPlacePopupOpen, onClose: closeAllPopups, isLoading} = props;
 
   const [name, setName] = React.useState('');
-  const [href, setHref] = React.useState(''); 
+  const [link, setLink] = React.useState(''); 
 
   React.useEffect(() => {
     setName('');
-    setHref('');
+    setLink('');
   }, [isAddPlacePopupOpen]);
 
   function handleChangeName(e) {
     setName(e.target.value);
   }
 
-  function handleChangeHref(e) {
-    setHref(e.target.value);
+  function handleChangeLink(e) {
+    setLink(e.target.value);
   }
 
   function handleSubmit(e) {
@@ -25,7 +25,7 @@ export default function AddPlacePopup(props) {
   
     props.onAddPlace({
       name,
-      link: href,
+      link,
     });
   } 
 
@@ -59,8 +59,8 @@ export default function AddPlacePopup(props) {
         name="link" 
         placeholder="Ссылка на картинку" 
         required
-        value={href}
-        onChange={handleChangeHref}        
+        value={link}
+        onChange={handleChangeLink}        
       />
       <span className="form__input-error  form__input-error_field_card-href"></span>
     </PopupWithForm>          
