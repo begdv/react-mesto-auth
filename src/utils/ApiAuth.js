@@ -10,8 +10,8 @@ class ApiAuth {
       method: 'POST',      
       headers: this._headers,
       body: JSON.stringify({
-        email: email,
-        password: password
+        password: password,
+        email: email
       })      
     })
       .then((res) => {
@@ -23,8 +23,8 @@ class ApiAuth {
       method: 'POST',      
       headers: this._headers,
       body: JSON.stringify({
-        email: email,
-        password: password
+        password: password,        
+        email: email
       })      
     })
       .then((res) => {
@@ -33,10 +33,8 @@ class ApiAuth {
   }  
   verifyToken(token) {
     return fetch(`${this._url}users/me`, {
-      headers: this._headers,
-      body: JSON.stringify({
-        token: token,
-      })      
+      method: 'GET',  
+      headers: {Authorization: `Bearer ${token}`, ...this._headers}
     })
       .then((res) => {
           return this._processResult(res);

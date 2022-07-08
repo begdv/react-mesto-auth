@@ -51,6 +51,10 @@ function App() {
       });
   }, []);
 
+  React.useEffect(() => {
+    tokenCheck();
+  }, []);
+
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
   }
@@ -146,11 +150,42 @@ function App() {
 
   function handleLogin(data) {
     apiAuth.login(data).then((res) => {
-      navigate("/signin", { replace: true });
+      console.log(res);
+      if (res.token){
+        localStorage.setItem('token', res.token);
+        tokenCheck();
+      }
     }).catch((err) => {
       console.log(err); 
     });
-  }  
+  }
+
+  function tokenCheck() {
+    const token = localStorage.getItem('token');
+    if (token){
+      apiAuth.verifyToken(token).then((res) => {
+        if (res){
+          setEmail(res.data.email);
+          setIsLoggedIn(true);
+          navigate("/");
+        }
+      }).catch((err) => {
+        localStorage.setItem('token', '');
+        navigate("/signin");
+        console.log(err); 
+      }); 
+    } else {
+      localStorage.setItem('token', '');
+      navigate("/signin");      
+    }
+  } 
+
+  function handleSignOut(data) {
+    setEmail('');
+    setIsLoggedIn(false);
+    localStorage.setItem('token', '');      
+    navigate("/signin", { replace: true });
+  }    
 
   const closeAllPopups = () => {
     setIsAddPlacePopupOpen(false);
@@ -165,12 +200,12 @@ function App() {
   }   
   return (
     <div className="page">
-      <Header email={email}/>
+      <Header isLoggedIn={isLoggedIn} email={email} onSignOut={handleSignOut}/>
       <Routes>
-      <Route 
+        <Route 
           index
           element={
-            <ProtectedRoute user={isLoggedIn}>
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <CurrentUserContext.Provider value={currentUser}>
                 {currentUser && <Main
                   cards={cards}
@@ -203,7 +238,7 @@ function App() {
         /> 
         <Route 
           path="*" 
-          element={<Navigate to="/signin" replace/>}
+          element={isLoggedIn ? <Navigate to="/signin" /> : <Navigate to="/" />}
         />               
       </Routes>    
       <Footer/>
